@@ -1,4 +1,4 @@
-# 🎶 Discord Music Bot
+# 🎶 Discord Youtube Bot
 
 ## 📌 Overview
 
@@ -60,18 +60,57 @@ It uses:
 
 ---
 
-## 🛠 Requirements
+## ⚙️ Requirements
 
 - [Node.js](https://nodejs.org/en/) v18 or higher
-- `ffmpeg` (bundled via [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static))
-- [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) installed and accessible in your system PATH
+- Node.js Dependencies and External programs below
 - Discord bot token and application registered on the [Discord Developer Portal](https://discord.com/developers/applications)
+  
 
+## 🛠 Dependencies
+
+### Node.js packages
+
+- [`discord.js`](https://discord.js.org/) — Discord API wrapper  
+- [`@discordjs/voice`](https://discord.js.org/#/docs/voice/main/general/welcome) — Voice connections and audio playback  
+- [`dotenv`](https://www.npmjs.com/package/dotenv) — Load environment variables from `.env` file  
+- [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static) — Static ffmpeg binary for audio transcoding  
+- Built-in Node.js modules: `child_process`
+
+### External Programs (must be installed on your system)
+
+- [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) — YouTube video/audio downloader, installed and accessible in your system PATH
+- [`ffmpeg`](https://ffmpeg.org/) — Multimedia framework for audio conversion (optional if using `ffmpeg-static`, but recommended to have a system installation)
+
+---
+
+## 🖥️ Installation
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/ez4encelol/Discord-Beat-Bot.git
+   cd Discord-Beat-Bot
+   ```
+2. Install Node.js dependencies:
+   ```bash
+   npm install ...
+   ```
+3. Create a .env file in the project root with:
+   ```ini
+   TOKEN=your_discord_bot_token
+   CLIENT_ID=your_discord_client_id
+   GUILD_ID=your_server_id
+   ```
+4. Run the bot:
+   ```bash
+   node index.js
+   ```
 ---
 
 ## 💡 To-do list
 
-Allow the bot to play from:
+Implement:
   - Playlists
   - Spotify links
   - Web UI for queue management
