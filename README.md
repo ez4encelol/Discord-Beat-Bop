@@ -27,32 +27,34 @@ It uses:
 
 ## 💬 Commands
 
-> All commands start with `!`
+> All commands start with `/`
 
-| Command             | Description                                                                 |
-|---------------------|-----------------------------------------------------------------------------|
-| `!play <url>`       | Plays the YouTube audio from the given link. Adds to the queue if something is already playing. |
-| `!skip`             | Skips the current track.                                                    |
-| `!loop`             | Toggles looping the currently playing song.                                 |
-| `!pause`            | Pauses the current playback.                                                |
-| `!resume`           | Resumes playback if paused.                                                 |
-| `!volume <0.0–2.0>` | Sets the playback volume (1.0 = 100%, 0.5 = 50%, 2.0 = 200%).                |
-| `!stop`             | Stops playback and disconnects from the voice channel.                      |
-| `!clear`            | Clears the current music queue (does not stop the currently playing song).  |
+| Command   | Description                            | Options                     |
+| --------- | -------------------------------------- | --------------------------- |
+| `/play`   | Play a YouTube video by URL            | `url` (string, required)    |
+| `/skip`   | Skip the currently playing track       | None                        |
+| `/loop`   | Toggle loop mode (repeat current song) | None                        |
+| `/pause`  | Pause playback                         | None                        |
+| `/resume` | Resume playback                        | None                        |
+| `/stop`   | Stop playback and leave voice channel  | None                        |
+| `/volume` | Set playback volume (0–100%)           | `level` (integer, required) |
+| `/queue`  | Show the current music queue           | None                        |
+| `/clear`  | Clear the current music queue          | None                        |
+
 
 ---
 
 ## 🎧 How It Works
 
-1. When a user types `!play <YouTube URL>` in a text channel:
+1. When a user types `/play <YouTube URL>` in a text channel:
    - If nothing is playing, the bot joins the user's voice channel and plays the audio.
    - If something is already playing, it adds the song to the **queue**.
 
 2. The bot uses `yt-dlp` to stream raw audio from YouTube and pipes it through `ffmpeg` to Discord.
 
-3. Commands like `!skip`, `!loop`, `!pause`, and `!volume` manipulate the current playback or queue.
+3. Commands like `/skip`, `/loop`, `/pause`, and `/volume` manipulate the current playback or queue.
 
-4. If looping is enabled via `!loop`, the same song repeats when it ends.
+4. If looping is enabled via `/loop`, the same song repeats when it ends.
 
 5. The bot automatically leaves the voice channel when playback ends and the queue is empty.
 
@@ -60,21 +62,16 @@ It uses:
 
 ## 🛠 Requirements
 
-Make sure the following are properly installed and configured:
-
-- ✅ [Node.js](https://nodejs.org/)
-- ✅ [`yt-dlp`](https://github.com/yt-dlp/yt-dlp#installation)
-- ✅ [`ffmpeg`](https://ffmpeg.org/download.html) and added to your system PATH
-- ✅ Correct Discord bot token and appropriate **Intents** enabled in the Discord Developer Portal
-- ✅ `MESSAGE CONTENT INTENT` enabled in bot settings
+- [Node.js](https://nodejs.org/en/) v18 or higher
+- `ffmpeg` (bundled via [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static))
+- [`yt-dlp`](https://github.com/yt-dlp/yt-dlp) installed and accessible in your system PATH
+- Discord bot token and application registered on the [Discord Developer Portal](https://discord.com/developers/applications)
 
 ---
 
-## 💡 Tips
+## 💡 To-do list
 
-- Keep your bot token secret at all times.
-- You can extend this bot to support:
-  - Slash commands
+Allow the bot to play from:
   - Playlists
   - Spotify links
   - Web UI for queue management
