@@ -1,4 +1,4 @@
-# 🎶 Discord Youtube Bot
+# ▶️ Discord Youtube Bot
 
 ## 📌 Overview
 
@@ -100,7 +100,6 @@ It uses:
    ```ini
    TOKEN=your_discord_bot_token
    CLIENT_ID=your_discord_client_id
-   GUILD_ID=your_server_id
    ```
 4. Run the bot:
    ```bash
