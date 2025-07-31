@@ -86,6 +86,8 @@ async function playAudio(interaction, url) {
         playStream(data, data.queue[0].url, interaction);
       } else {
         data.playing = false;
+        data.connection.destroy();
+        guildAudioData.delete(interaction.guildId);
       }
     });
 
