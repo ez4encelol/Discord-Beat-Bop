@@ -10,10 +10,8 @@ const {
 const { spawn } = require('child_process');
 const ffmpeg = require('ffmpeg-static');
 
-// Replace these values in your .env file instead of hardcoding
 const TOKEN = process.env.TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
-const GUILD_ID = process.env.GUILD_ID;
 
 const client = new Client({
   intents: [
@@ -45,7 +43,7 @@ async function registerSlashCommands() {
   const rest = new REST({ version: '10' }).setToken(TOKEN);
   try {
     console.log('📡 Registering slash commands...');
-    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands });
+    await rest.put(Routes.applicationCommands(CLIENT_ID), { body: commands });
     console.log('✅ Slash commands registered!');
   } catch (error) {
     console.error('❌ Failed to register commands:', error);
@@ -88,9 +86,6 @@ async function playAudio(interaction, url) {
         playStream(data, data.queue[0].url, interaction);
       } else {
         data.playing = false;
-        // Optionally disconnect here if you want
-        // data.connection.destroy();
-        // guildAudioData.delete(interaction.guildId);
       }
     });
 
