@@ -1,6 +1,5 @@
 ## Terms of Service
-
-By using Beat Bop, the client agrees to the following terms:
+Welcome to Beat Bop, a Discord Youtube bot that allows users to play and control videos in their Discord servers. By inviting and using Beat Bop, the client agrees to the following terms:
 
 ## Eligibility
 
