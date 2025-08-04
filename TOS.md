@@ -1,17 +1,39 @@
-Terms of Service
-Terms of service for the Beat Bop app, this guides our clients on how they can use Beat Bop.
+## Terms of Service
 
-- Conditions
-General conditions regarding Beat Bop are under this topic:
+By using Beat Bop, the client agrees to the following terms:
 
-1. Our terms and conditions apply to each and every user of Beat Bop.
-2. By adding Beat Bop in your server, you agree to these terms of service and the future terms which we may add after a notice.
-   
-- Terms of Use
+## Eligibility
 
-1. Intentional command spam or attempts to crash the bot should not be made.
-2. Beat Bot should not be used in Bot spam servers which cause command spam.
-3. Bothub reserves the rights to prohibit any server or user from using Beat Bop.
-4. The client is responsible for any violation caused by them.
-5. We have the rights to update terms of service anytime with a notice in the support server.
-6. Servers must use an appropiate server name.
+- Must be 13+ or the minimum age allowed by Discord.
+
+- Must comply with Discord Terms and Community Guidelines.
+
+## Usage
+
+The Bot is provided as-is and free to use.
+
+You must not use Beat Bop for illegal purposes, including:
+
+- Streaming or distributing copyrighted music without authorization.
+
+- Attempting to abuse or overload Beat Bop.
+
+- Using Beat Bop to violate Discord’s rules.
+
+BotHub reserves the right to block or remove the Bot from any server that violates these rules.
+
+## Service Availability
+
+- Beat Bop may receive updates/maintenance overtime.
+
+- BotHub is not liable for any damages, losses, or disruptions caused by Beat Bop being unavailable.
+
+## Termination
+
+BotHub may suspend or terminate the Bot’s service at any time without notice if:
+
+- The client violates these Terms.
+
+- Discord requires us to remove or disable Beat Bop.
+
+- Technical or legal reasons require it.
