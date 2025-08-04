@@ -37,7 +37,7 @@ It uses:
 | `/pause`  | Pause playback                         | None                        |
 | `/resume` | Resume playback                        | None                        |
 | `/stop`   | Stop playback and leave voice channel  | None                        |
-| `/volume` | Set playback volume (0–100%)           | `level` (integer, required) |
+| `/volume` | Set playback volume                    | `level` (integer, required) |
 | `/queue`  | Show the current music queue           | None                        |
 | `/clear`  | Clear the current music queue          | None                        |
 
@@ -89,8 +89,8 @@ It uses:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/ez4encelol/Discord-Beat-Bot.git
-   cd Discord-Beat-Bot
+   git clone https://github.com/ez4encelol/Discord-Beat-Bop.git
+   cd Discord-Beat-Bop
    ```
 2. Install Node.js dependencies:
    ```bash
