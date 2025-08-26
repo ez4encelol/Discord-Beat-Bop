@@ -41,11 +41,11 @@ async function registerSlashCommands() {
 
   const rest = new REST({ version: '10' }).setToken(TOKEN);
   try {
-    console.log('📡 Registering slash commands...');
+    console.log('Registering slash commands...');
     await rest.put(Routes.applicationCommands(CLIENT_ID), { body: commands });
-    console.log('✅ Slash commands registered!');
+    console.log('Slash commands registered!');
   } catch (error) {
-    console.error('❌ Failed to register commands:', error);
+    console.error('Failed to register commands:', error);
   }
 }
 
@@ -126,18 +126,17 @@ async function playAudio(interaction, url) {
   }
 }
 
+// ----- URL handler -----
 async function playStream(data, url) {
   try {
     if (!url) {
-      console.error('❌ playStream called with invalid URL');
+      console.error('playStream called with invalid URL');
       return;
     }
 
-    console.log('🎵 Now playing:', url);
-
     const directUrl = await getDirectAudioUrl(url);
     if (!directUrl) {
-      console.error('❌ Failed to resolve direct audio URL');
+      console.error('Failed to resolve direct audio URL');
       return;
     }
 
@@ -222,14 +221,11 @@ client.on('interactionCreate', async interaction => {
 });
 
 // ----- Start Bot -----
-client.once('ready', () => {
-  console.log(`🤖 Logged in as ${client.user.tag}`);
+client.once('clientReady', () => {
+  console.log(`Logged in as ${client.user.tag}`);
 });
 
 (async () => {
   await registerSlashCommands();
   client.login(TOKEN);
 })();
-
-
-
