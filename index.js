@@ -7,7 +7,7 @@ const {
   AudioPlayerStatus,
   StreamType,
 } = require('@discordjs/voice');
-const ytdlp = require('yt-dlp-exec'); // ✅ yt-dlp as Node wrapper
+const ytdlp = require('yt-dlp-exec'); // yt-dlp as Node wrapper
 
 const TOKEN = process.env.TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -57,7 +57,7 @@ async function getDirectAudioUrl(url) {
       noPlaylist: true,
       format: 'bestaudio',
     });
-    return info.url; // ✅ direct audio URL
+    return info.url; // direct audio URL
   } catch (err) {
     console.error('yt-dlp exec error:', err);
     return null;
@@ -230,3 +230,4 @@ client.once('ready', () => {
   await registerSlashCommands();
   client.login(TOKEN);
 })();
+
