@@ -55,7 +55,7 @@ async function getDirectAudioUrl(url) {
     const info = await ytdlp(url, {
       dumpSingleJson: true,
       noPlaylist: true,
-      format: 'bestaudio',
+      format: 'worstaudio',
     });
     return info.url; // direct audio URL
   } catch (err) {
@@ -230,4 +230,5 @@ client.once('ready', () => {
   await registerSlashCommands();
   client.login(TOKEN);
 })();
+
 
