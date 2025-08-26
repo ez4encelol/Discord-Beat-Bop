@@ -71,7 +71,8 @@ It uses:
 
 ### Node.js packages
 
-- [`discord.js`](https://discord.js.org/) — Discord API wrapper  
+- [`discord.js`](https://discord.js.org/) — Discord API wrapper
+- [`yt-dlp-exec`](https://github.com/Marinos33/yt-dlp-exec) - Node wrapper for yt-dlp
 - [`@discordjs/voice`](https://discord.js.org/#/docs/voice/main/general/welcome) — Voice connections and audio playback  
 - [`dotenv`](https://www.npmjs.com/package/dotenv) — Load environment variables from `.env` file  
 - [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static) — Static ffmpeg binary for audio transcoding  
