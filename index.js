@@ -7,8 +7,7 @@ const {
   AudioPlayerStatus,
   StreamType,
 } = require('@discordjs/voice');
-const { spawn } = require('child_process');
-const ffmpeg = require('ffmpeg-static');
+const ytdlp = require('yt-dlp-exec'); // ✅ yt-dlp as Node wrapper
 
 const TOKEN = process.env.TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -50,12 +49,30 @@ async function registerSlashCommands() {
   }
 }
 
+// ----- yt-dlp helper -----
+async function getDirectAudioUrl(url) {
+  try {
+    const info = await ytdlp(url, {
+      dumpSingleJson: true,
+      noPlaylist: true,
+      format: 'bestaudio',
+    });
+    return info.url; // ✅ direct audio URL
+  } catch (err) {
+    console.error('yt-dlp exec error:', err);
+    return null;
+  }
+}
+
 // ----- Music Logic -----
 async function playAudio(interaction, url) {
   const voiceChannel = interaction.member.voice.channel;
-  if (!voiceChannel) return interaction.reply({ content: '🔊 You must be in a voice channel.', ephemeral: true });
+  if (!voiceChannel) {
+    return interaction.reply({ content: '🔊 You must be in a voice channel.', ephemeral: true });
+  }
 
   let data = guildAudioData.get(interaction.guildId);
+
   if (!data) {
     const connection = joinVoiceChannel({
       channelId: voiceChannel.id,
@@ -73,21 +90,23 @@ async function playAudio(interaction, url) {
       loop: false,
       volume: 1.0,
       playing: false,
-      ytdlpProcess: null,
-      ffmpegProcess: null,
     };
     guildAudioData.set(interaction.guildId, data);
 
+    // Idle handler
     player.on(AudioPlayerStatus.Idle, () => {
       if (data.loop && data.queue.length > 0) {
-        playStream(data, data.queue[0].url, interaction);
+        playStream(data, data.queue[0].url);
       } else if (data.queue.length > 1) {
         data.queue.shift();
-        playStream(data, data.queue[0].url, interaction);
+        playStream(data, data.queue[0].url);
       } else {
+        data.queue = [];
         data.playing = false;
-        data.connection.destroy();
-        guildAudioData.delete(interaction.guildId);
+        if (data.connection) {
+          data.connection.destroy();
+          guildAudioData.delete(interaction.guildId);
+        }
       }
     });
 
@@ -97,72 +116,50 @@ async function playAudio(interaction, url) {
     });
   }
 
+  // add to queue
   data.queue.push({ url });
-  interaction.reply(`▶️ Added to queue: ${url}`);
+  await interaction.reply(`▶️ Added to queue: ${url}`);
 
+  // if nothing is playing, start now
   if (!data.playing) {
-    playStream(data, url, interaction);
+    playStream(data, url);
   }
 }
 
-function playStream(data, url, interaction) {
-  // Kill existing streaming processes if any
-  if (data.ytdlpProcess) {
-    try { data.ytdlpProcess.kill('SIGKILL'); } catch {}
-    data.ytdlpProcess = null;
+async function playStream(data, url) {
+  try {
+    if (!url) {
+      console.error('❌ playStream called with invalid URL');
+      return;
+    }
+
+    console.log('🎵 Now playing:', url);
+
+    const directUrl = await getDirectAudioUrl(url);
+    if (!directUrl) {
+      console.error('❌ Failed to resolve direct audio URL');
+      return;
+    }
+
+    const resource = createAudioResource(directUrl, {
+      inputType: StreamType.Arbitrary,
+      inlineVolume: true,
+    });
+    resource.volume.setVolume(data.volume);
+
+    data.player.play(resource);
+    data.playing = true;
+  } catch (err) {
+    console.error('Stream error:', err);
+
+    if (data.queue.length > 0) data.queue.shift();
+
+    if (data.queue.length > 0) {
+      playStream(data, data.queue[0].url);
+    } else {
+      data.playing = false;
+    }
   }
-  if (data.ffmpegProcess) {
-    try { data.ffmpegProcess.kill('SIGKILL'); } catch {}
-    data.ffmpegProcess = null;
-  }
-
-  // Spawn yt-dlp and ffmpeg processes
-  const ytdlpProcess = spawn('yt-dlp', ['-f', 'bestaudio', '-o', '-', url]);
-  const ffmpegProcess = spawn(ffmpeg, ['-i', 'pipe:0', '-f', 's16le', '-ar', '48000', '-ac', '2', 'pipe:1']);
-
-  // Pipe yt-dlp output to ffmpeg input
-  ytdlpProcess.stdout.pipe(ffmpegProcess.stdin);
-
-  // Add error handlers to prevent uncaught exceptions on skip or stop
-  ytdlpProcess.stdout.on('error', (err) => {
-    if (err.code !== 'EPIPE') console.error('yt-dlp stdout error:', err);
-  });
-
-  ffmpegProcess.stdin.on('error', (err) => {
-    if (err.code !== 'EPIPE') console.error('ffmpeg stdin error:', err);
-  });
-
-  ffmpegProcess.stdout.on('error', (err) => {
-    if (err.code !== 'EPIPE') console.error('ffmpeg stdout error:', err);
-  });
-
-  ytdlpProcess.on('error', (err) => {
-    console.error('yt-dlp process error:', err);
-  });
-
-  ffmpegProcess.on('error', (err) => {
-    console.error('ffmpeg process error:', err);
-  });
-
-  ytdlpProcess.on('close', (code, signal) => {
-    if (code !== 0) console.error(`yt-dlp exited with code ${code} and signal ${signal}`);
-  });
-
-  ffmpegProcess.on('close', (code, signal) => {
-    if (code !== 0) console.error(`ffmpeg exited with code ${code} and signal ${signal}`);
-  });
-
-  data.ytdlpProcess = ytdlpProcess;
-  data.ffmpegProcess = ffmpegProcess;
-
-  const resource = createAudioResource(ffmpegProcess.stdout, {
-    inputType: StreamType.Raw,
-    inlineVolume: true,
-  });
-  resource.volume.setVolume(data.volume);
-
-  data.player.play(resource);
-  data.playing = true;
 }
 
 // ----- Handle Commands -----
@@ -177,19 +174,7 @@ client.on('interactionCreate', async interaction => {
 
     case 'skip':
       if (!data) return interaction.reply('❌ Nothing to skip.');
-
       data.player.stop();
-
-      // Kill streaming processes immediately
-      if (data.ytdlpProcess) {
-        try { data.ytdlpProcess.kill('SIGKILL'); } catch {}
-        data.ytdlpProcess = null;
-      }
-      if (data.ffmpegProcess) {
-        try { data.ffmpegProcess.kill('SIGKILL'); } catch {}
-        data.ffmpegProcess = null;
-      }
-
       return interaction.reply('⏭ Skipped.');
 
     case 'loop':
