@@ -33,7 +33,7 @@ async function registerSlashCommands() {
     new SlashCommandBuilder().setName('pause').setDescription('Pause the audio'),
     new SlashCommandBuilder().setName('resume').setDescription('Resume the audio'),
     new SlashCommandBuilder().setName('stop').setDescription('Stop the audio and leave the voice channel'),
-    new SlashCommandBuilder().setName('volume').setDescription('Set volume (0–100)')
+    new SlashCommandBuilder().setName('volume').setDescription('Set volume')
       .addIntegerOption(option => option.setName('level').setDescription('Volume %').setRequired(true)),
     new SlashCommandBuilder().setName('queue').setDescription('Show the current queue'),
     new SlashCommandBuilder().setName('clear').setDescription('Clear the queue'),
@@ -202,7 +202,7 @@ client.on('interactionCreate', async interaction => {
     case 'volume':
       if (!data) return interaction.reply('❌ Nothing is playing.');
       const level = interaction.options.getInteger('level');
-      if (level < 0 || level > 100) return interaction.reply('❌ Volume must be 0–100.');
+      if (level < 0) return interaction.reply('❌ Volume must be greater than or equal to 0');
       data.volume = level / 100;
       if (data.player.state.status === AudioPlayerStatus.Playing) {
         data.player.state.resource.volume.setVolume(data.volume);
@@ -230,5 +230,6 @@ client.once('ready', () => {
   await registerSlashCommands();
   client.login(TOKEN);
 })();
+
 
 
