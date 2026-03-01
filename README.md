@@ -96,7 +96,7 @@ It uses:
    ```
 2. Install Node.js dependencies:
    ```bash
-   npm install ...
+   npm install
    ```
 3. Inside the src folder, Create an .env file and insert your Discord Bot Token and Discord Client ID:
    ```ini
