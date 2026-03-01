@@ -1,6 +1,6 @@
-# ▶️ Discord Youtube Bot
+# Discord Youtube Bot
 
-## 📌 Overview
+## Overview
 
 This Discord bot allows users to **play YouTube audio**, manage a **music queue**, adjust **volume**, loop songs, and control playback directly from a voice channel using text commands.
 
@@ -12,20 +12,20 @@ It uses:
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🔊 Stream YouTube audio directly into voice channels
-- ⏱ Maintain a queue of songs per server
-- 🔁 Loop the current track
-- ⏸ Pause/resume playback
-- ⏭ Skip current track
-- 🎚 Control volume
-- ❌ Stop and disconnect from voice
-- 🧹 Clear the music queue
+- Stream YouTube audio directly into voice channels
+- Maintain a queue of songs per server
+- Loop the current track
+- Pause/resume playback
+- Skip current track
+- Control volume
+- Stop and disconnect from voice
+- Clear the music queue
 
 ---
 
-## 💬 Commands
+## Commands
 
 > All commands start with `/`
 
@@ -44,7 +44,7 @@ It uses:
 
 ---
 
-## 🎧 How It Works
+## How It Works
 
 1. When a user types `/play <YouTube URL>` in a text channel:
    - If nothing is playing, the bot joins the user's voice channel and plays the audio.
@@ -60,14 +60,14 @@ It uses:
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
 - [Node.js](https://nodejs.org/en/) v18 or higher
 - Node.js Dependencies and External programs below
 - Discord bot token and application registered on the [Discord Developer Portal](https://discord.com/developers/applications)
   
 
-## 🛠 Dependencies
+## Dependencies
 
 ### Node.js packages
 
@@ -86,7 +86,7 @@ It uses:
 
 ---
 
-## 🖥️ Installation
+## Installation
 
 1. Clone this repository:
 
@@ -109,7 +109,7 @@ It uses:
    ```
 ---
 
-## 💡 To-do list
+## To-do list
 
 Implement:
   - Playlists
