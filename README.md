@@ -98,7 +98,7 @@ It uses:
    ```bash
    npm install ...
    ```
-3. Insert your Discord Bot Token and Discord Client ID into the .env:
+3. Insert your Discord Bot Token and Discord Client ID into the .env file:
    ```ini
    TOKEN=your_discord_bot_token
    CLIENT_ID=your_discord_client_id
