@@ -98,13 +98,14 @@ It uses:
    ```bash
    npm install ...
    ```
-3. Create a .env file in the src folder with:
+3. Insert your Discord Bot Token and Discord Client ID into the .env:
    ```ini
    TOKEN=your_discord_bot_token
    CLIENT_ID=your_discord_client_id
    ```
 4. Run the bot from inside the src folder:
    ```bash
+   cd src
    node index.js
    ```
 ---
