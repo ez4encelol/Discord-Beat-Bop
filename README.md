@@ -92,7 +92,7 @@ It uses:
 
    ```bash
    git clone https://github.com/ez4encelol/Discord-Beat-Bop.git
-   cd discord-beat-bop
+   cd Discord-Beat-Bop
    ```
 2. Install Node.js dependencies:
    ```bash
